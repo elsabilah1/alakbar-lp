@@ -1,14 +1,32 @@
 import {
+  CalendarPlus,
+  Contact,
+  LayoutDashboard,
+  Loader2,
   LucideProps,
   Moon,
+  Pencil,
+  Plus,
   SunMedium,
+  Trash2,
   Twitter,
+  User,
+  Wallet,
   type Icon as LucideIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  plus: Plus,
+  pen: Pencil,
+  trash: Trash2,
+  donation: Wallet,
+  activity: CalendarPlus,
+  user: User,
+  child: Contact,
+  dashboard: LayoutDashboard,
+  loader: Loader2,
   sun: SunMedium,
   moon: Moon,
   twitter: Twitter,
