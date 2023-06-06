@@ -1,18 +1,11 @@
 "use client"
 
 import Link from "next/link"
+import { Donation } from "@/store/slices/donationSlice"
 import { ColumnDef } from "@tanstack/react-table"
 
 import DeleteDonationForm from "./form-delete"
 import EditDonationForm from "./form-edit"
-
-export type Donation = {
-  donor: string
-  paymentMethod: string
-  fileUrl: string
-  fileId: string
-  createdBy: string
-}
 
 export const columns: ColumnDef<Donation>[] = [
   {
@@ -31,15 +24,11 @@ export const columns: ColumnDef<Donation>[] = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
     accessorKey: "_id",
     header: "Aksi",
-    cell: ({ getValue }) => (
+    cell: ({ getValue, row }) => (
       <div className="flex gap-2">
-        <EditDonationForm id={getValue()} />
+        <EditDonationForm data={row.original} />
         <DeleteDonationForm id={getValue()} />
       </div>
     ),

@@ -16,14 +16,18 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { Icons } from "../icons"
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  loading?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  loading,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -54,8 +58,14 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row, i) => (
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24">
+                <Icons.loader className="mx-auto h-4 w-4 animate-spin" />
+              </TableCell>
+            </TableRow>
+          ) : table.getRowModel().rows?.length ? (
+            table.getRowModel().rows?.map((row, i) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
@@ -70,8 +80,11 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell
+                colSpan={columns.length + 1}
+                className="h-24 text-center"
+              >
+                Data tidak tersedia.
               </TableCell>
             </TableRow>
           )}

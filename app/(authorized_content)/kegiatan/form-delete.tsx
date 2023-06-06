@@ -1,8 +1,10 @@
 "use client"
 
+import { useState } from "react"
+import useStore from "@/store/useStore"
+
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -15,28 +17,34 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 
 export default function DeleteActivityForm({ id }: { id: unknown }) {
-  async function deleteActivity() {
-    console.log(id)
-  }
+  const { deleteActivity } = useStore()
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="sm">
-          <Icons.trash className="w-3 h-3" />
+          <Icons.trash className="h-3 w-3" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Yakin untuk menghapus data?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogCancel disabled={loading}>Batal</AlertDialogCancel>
+          <Button
+            variant="destructive"
+            onClick={() => deleteActivity(id, setOpen, setLoading)}
+            isLoading={loading}
+          >
+            Hapus
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

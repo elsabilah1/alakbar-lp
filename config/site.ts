@@ -6,13 +6,25 @@ export const siteConfig = {
     "Beautifully designed components built with Radix UI and Tailwind CSS.",
   mainNav: [
     {
-      title: "Home",
+      title: "🏠",
       href: "/",
+    },
+    {
+      title: "Tentang Kami",
+      href: "/#about-us",
+    },
+    {
+      title: "Kegiatan",
+      href: "/activities",
+    },
+  ],
+  adminNav: [
+    {
+      title: "Dashboard",
+      href: "/dashboard",
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    instagram: "https://www.instagram.com/pantiasuhan_alakbar",
   },
 }

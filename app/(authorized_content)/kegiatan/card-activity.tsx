@@ -1,3 +1,5 @@
+import { Activity } from "@/store/slices/activitySlice"
+
 import {
   Card,
   CardContent,
@@ -10,22 +12,20 @@ import {
 import DeleteActivityForm from "./form-delete"
 import EditActivityForm from "./form-edit"
 
-export default function CardActivity() {
+export default function CardActivity({ data }: { data: Activity }) {
   return (
     <Card>
       <CardHeader>
         <div className="flex justify-between">
-          <CardTitle>Card Title</CardTitle>
+          <CardTitle>{data.title}</CardTitle>
           <div className="flex gap-1">
-            <EditActivityForm id={"1"} />
-            <DeleteActivityForm id={"1"} />
+            <EditActivityForm data={data} />
+            <DeleteActivityForm id={data._id} />
           </div>
         </div>
         <CardDescription>Card Description</CardDescription>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
+      <CardContent>{data.description}</CardContent>
       <CardFooter>
         <p>Card Footer</p>
       </CardFooter>

@@ -8,6 +8,7 @@ import Orphanage from "@/lib/models/Orphanage"
 
 export async function GET() {
   try {
+    await connectMongo()
     const data = await Admin.find()
     return NextResponse.json({ data }, { status: 200 })
   } catch (error: any) {

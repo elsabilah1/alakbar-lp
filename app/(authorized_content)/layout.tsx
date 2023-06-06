@@ -12,7 +12,9 @@ export default async function Layout({ children }: PropsWithChildren) {
   return (
     <div className="container">
       <Sidebar />
-      <main className="ml-16 pl-3 pt-10 xl:pt-20">{children}</main>
+      <main className="ml-16 pb-8 pl-3 pt-6 md:py-10 lg:ml-36 xl:pt-20">
+        {children}
+      </main>
     </div>
   )
 }

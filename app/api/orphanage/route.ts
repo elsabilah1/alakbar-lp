@@ -6,32 +6,31 @@ import Orphanage from "@/lib/models/Orphanage"
 export async function GET() {
   try {
     await connectMongo()
-    const orphanage = await Orphanage.find()
-    return NextResponse.json({ orphanage })
+    const orphanages = await Orphanage.find()
+    return NextResponse.json({ data: orphanages[0] })
   } catch (error) {
     return NextResponse.json({ error })
   }
 }
 
-export async function POST() {
+export async function PUT(req: Request) {
   try {
     await connectMongo()
 
-    const createdProfile = await Orphanage.create({
-      name: "alakbar",
-      snippet:
-        "snippet Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia veritatis inventore expedita, sint dolorem facilis perspiciatis nostrum est eveniet veniam, nobis reiciendis beatae tenetur doloremque et praesentium ipsam temporibus! Distinctio?",
-      logoUrl: "logoUrl",
-      logoId: "logoId",
-      description:
-        "desc Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia veritatis inventore expedita, sint dolorem facilis perspiciatis nostrum est eveniet veniam, nobis reiciendis beatae tenetur doloremque et praesentium ipsam temporibus! Distinctio?",
-      misi: "visi",
-      visi: "misi",
-      address: "address",
-      phoneNumber: "08999999999",
-    })
+    const body = await req.json()
 
-    return NextResponse.json({ createdProfile })
+    const orphanages = await Orphanage.find()
+    const id = orphanages[0]._id
+
+    const updatedProfile = await Orphanage.findByIdAndUpdate(id, body)
+
+    return NextResponse.json(
+      {
+        message: "Data edited successfully.",
+        data: updatedProfile,
+      },
+      { status: 200 }
+    )
   } catch (error) {
     return NextResponse.json({ error })
   }
