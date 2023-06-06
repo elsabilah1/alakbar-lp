@@ -1,18 +1,12 @@
-import Link from "next/link"
-import axios from "axios"
+"use client"
 
-import { buttonVariants } from "@/components/ui/button"
+import useDataList from "@/hooks/useDataList"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Icons } from "@/components/icons"
 
-async function getData() {
-  const url = process.env.NEXTAUTH_URL + "/api/orphanage"
-  const { data } = await axios.get(url)
-  return data.data
-}
+export default function ActivitiesPage() {
+  const { data, loading } = useDataList("detail", "/api/orphanage")
 
-export default async function ActivitiesPage() {
-  const data = await getData()
+  if (loading) return <div>loading...</div>
 
   return (
     <>
