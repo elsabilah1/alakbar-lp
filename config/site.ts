@@ -20,8 +20,16 @@ export const siteConfig = {
   ],
   adminNav: [
     {
-      title: "Dashboard",
+      title: "🏠",
       href: "/dashboard",
+    },
+    {
+      title: "Tentang Kami",
+      href: "/#about-us",
+    },
+    {
+      title: "Kegiatan",
+      href: "/activities",
     },
   ],
   links: {

@@ -16,6 +16,7 @@ interface MainNavProps {
 
 export function MainNav({ isAdmin, items }: MainNavProps) {
   const path = usePathname()
+  const userPath = path === "/" || path.includes("/activities" || "#about")
 
   return (
     <div className="flex gap-6 md:gap-10">
@@ -23,7 +24,7 @@ export function MainNav({ isAdmin, items }: MainNavProps) {
         <Icons.logo className="h-6 w-6" />
         <span className="inline-block font-bold">{siteConfig.name}</span>
       </Link>
-      {isAdmin && path !== "/" ? null : items?.length ? (
+      {isAdmin && !userPath ? null : items?.length ? (
         <nav className="flex gap-6">
           {items?.map(
             (item, index) =>
