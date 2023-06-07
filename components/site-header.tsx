@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth"
 
 import { siteConfig } from "@/config/site"
 import { authOptions } from "@/lib/auth"
-import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"

@@ -18,7 +18,7 @@ export default async function SignInPage() {
 
   return (
     <main className="container grid place-items-center pt-10">
-      <Card className="w-1/3 border-none">
+      <Card className="border-none lg:w-1/3">
         <CardHeader>
           <CardTitle className="text-3xl">Sign In</CardTitle>
           <CardDescription>Masuk sebagai Admin</CardDescription>

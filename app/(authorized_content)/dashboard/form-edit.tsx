@@ -31,6 +31,7 @@ import { Icons } from "@/components/icons"
 export const detailSchema = z.object({
   name: z.string().min(2).max(50),
   snippet: z.string().min(2).max(50),
+  logo: z.any(),
   logoUrl: z.string().min(2).max(50),
   logoId: z.string().min(2).max(50),
   description: z.string().min(2).max(200),
@@ -49,10 +50,14 @@ export default function EditDetailForm({ data }: { data: any }) {
   })
 
   const onSubmit = async (values: z.infer<typeof detailSchema>) => {
+    // console.log({ values })
+    // const data = new FormData()
+    // data.append("logo", values.logo)
+
     const { data: res } = await axios.put(`/api/orphanage`, values)
     console.log(res)
-    mutate("orphanage")
-    setOpen(false)
+    // mutate("orphanage")
+    // setOpen(false)
   }
 
   return (
@@ -76,6 +81,19 @@ export default function EditDetailForm({ data }: { data: any }) {
                   <FormLabel>Nama Panti</FormLabel>
                   <FormControl>
                     <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="logo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Logo</FormLabel>
+                  <FormControl>
+                    <Input type="file" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

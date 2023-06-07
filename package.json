@@ -22,6 +22,7 @@
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "class-variance-authority": "^0.4.0",
+    "cloudinary": "^1.37.0",
     "clsx": "^1.2.1",
     "lucide-react": "0.105.0-alpha.4",
     "mongoose": "^7.2.2",
