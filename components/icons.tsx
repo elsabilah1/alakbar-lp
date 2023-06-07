@@ -14,12 +14,14 @@ import {
   Trash2,
   User,
   Wallet,
+  X,
   type Icon as LucideIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  x: X,
   facebook: Facebook,
   instagram: Instagram,
   arrowRight: ArrowRight,

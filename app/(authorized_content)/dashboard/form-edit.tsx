@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
+import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
 import { mutate } from "swr"
 import * as z from "zod"
@@ -46,15 +47,21 @@ export default function EditDetailForm({ data }: { data: any }) {
 
   const form = useForm<z.infer<typeof detailSchema>>({
     resolver: zodResolver(detailSchema),
-    defaultValues: data,
+    defaultValues: {
+      ...data,
+      logo: "",
+    },
   })
 
   const onSubmit = async (values: z.infer<typeof detailSchema>) => {
     // console.log({ values })
-    // const data = new FormData()
-    // data.append("logo", values.logo)
+    const data = new FormData()
+    // data.append('logo',values.logo)
+    for (const key in values) {
+      data.append(key, values[key])
+    }
 
-    const { data: res } = await axios.put(`/api/orphanage`, values)
+    const { data: res } = await axios.put(`/api/orphanage`, data)
     console.log(res)
     // mutate("orphanage")
     // setOpen(false)
@@ -89,15 +96,50 @@ export default function EditDetailForm({ data }: { data: any }) {
             <FormField
               control={form.control}
               name="logo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Logo</FormLabel>
-                  <FormControl>
-                    <Input type="file" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field, formState }) => {
+                const { getRootProps, getInputProps } = useDropzone({
+                  maxFiles: 1,
+                  accept: {
+                    "image/*": [".jpeg", ".png"],
+                  },
+                  onDrop: (acceptedFiles) => {
+                    field.onChange(acceptedFiles[0])
+                  },
+                })
+
+                return (
+                  <FormItem>
+                    <FormLabel>Logo</FormLabel>
+                    <FormControl>
+                      <>
+                        <div {...getRootProps({ className: "dropzone" })}>
+                          <input
+                            {...getInputProps()}
+                            name={field.name}
+                            disabled={formState.isSubmitting}
+                          />
+                          <div className="flex h-16 cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed md:gap-6">
+                            <span className="text-sm font-medium">
+                              Unggah Logo
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          {field.value && (
+                            <div className="my-2 flex justify-between border border-emerald-500 p-2">
+                              <p className="text-sm">{field.value.path}</p>
+                              <button onClick={() => field.onChange(undefined)}>
+                                <Icons.x className="w-4" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
             />
             <FormField
               control={form.control}
