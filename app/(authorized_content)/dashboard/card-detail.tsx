@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -13,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 
 import EditDetailForm, { detailSchema } from "./form-edit"
 
@@ -20,6 +22,7 @@ export default function CardDetail({ data }: { data: any }) {
   const form = useForm<z.infer<typeof detailSchema>>({
     defaultValues: data,
   })
+
   return (
     <Card>
       <CardHeader>
@@ -32,8 +35,29 @@ export default function CardDetail({ data }: { data: any }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(() => console.log("clicked"))}
-            className="grid gap-3"
+            className="grid gap-10"
           >
+            <FormField
+              control={form.control}
+              name="logo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Logo</FormLabel>
+                  <FormControl>
+                    <>
+                      <Image
+                        src={data.logoUrl}
+                        alt="logo"
+                        width={48}
+                        height={48}
+                        className="object-contain"
+                      />
+                    </>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="name"
@@ -41,7 +65,7 @@ export default function CardDetail({ data }: { data: any }) {
                 <FormItem>
                   <FormLabel>Nama Panti</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled />
+                    <Input {...field} readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -52,87 +76,9 @@ export default function CardDetail({ data }: { data: any }) {
               name="snippet"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Subtitle</FormLabel>
+                  <FormLabel>Kutipan</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="logoUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Logo Url</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="logoId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Logo Id</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Deskripsi</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="visi"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Visi</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="misi"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Misi</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Alamat</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled />
+                    <Input {...field} readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,7 +91,59 @@ export default function CardDetail({ data }: { data: any }) {
                 <FormItem>
                   <FormLabel>No. Telp</FormLabel>
                   <FormControl>
-                    <Input {...field} disabled />
+                    <Input {...field} readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Deskripsi</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="visi"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Visi</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="misi"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Misi</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Alamat</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

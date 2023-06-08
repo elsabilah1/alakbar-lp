@@ -2,11 +2,17 @@
 
 import useDataList from "@/hooks/useDataList"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Icons } from "@/components/icons"
 
 export default function ActivitiesPage() {
   const { data, loading } = useDataList("detail", "/api/orphanage")
 
-  if (loading) return <div>loading...</div>
+  if (loading)
+    return (
+      <div className="container grid h-96 place-items-center">
+        <Icons.loader className="h-8 w-8 animate-spin" />
+      </div>
+    )
 
   return (
     <>

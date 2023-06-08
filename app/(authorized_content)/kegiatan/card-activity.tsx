@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Activity } from "@/store/slices/activitySlice"
 
 import {
@@ -14,7 +15,7 @@ import EditActivityForm from "./form-edit"
 
 export default function CardActivity({ data }: { data: Activity }) {
   return (
-    <Card>
+    <Card className="md:h-64">
       <CardHeader>
         <div className="flex justify-between">
           <CardTitle>{data.title}</CardTitle>
@@ -23,12 +24,19 @@ export default function CardActivity({ data }: { data: Activity }) {
             <DeleteActivityForm id={data._id} />
           </div>
         </div>
-        <CardDescription>Card Description</CardDescription>
+        <CardDescription>{new Date().toLocaleDateString()}</CardDescription>
       </CardHeader>
-      <CardContent>{data.description}</CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
+      <CardContent className="grid grid-cols-2 gap-2">
+        <div className="relative h-32">
+          <Image
+            src={data.imageUrl}
+            alt={data.title}
+            className="object-contain"
+            fill
+          />
+        </div>
+        <p className="line-clamp-2 text-sm">{data.description}</p>
+      </CardContent>
     </Card>
   )
 }

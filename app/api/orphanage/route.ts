@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 
-import cloudinary from "@/lib/cloudinary"
 import connectMongo from "@/lib/db"
 import Orphanage from "@/lib/models/Orphanage"
 
@@ -18,23 +17,21 @@ export async function PUT(req: Request) {
   try {
     await connectMongo()
 
-    // const body = await req.json()
+    const body = await req.json()
 
-    // const orphanages = await Orphanage.find()
-    // const id = orphanages[0]._id
+    const orphanages = await Orphanage.find()
+    const id = orphanages[0]._id
 
-    // const updatedProfile = await Orphanage.findByIdAndUpdate(id, body)
+    const updatedProfile = await Orphanage.findByIdAndUpdate(id, body)
 
     return NextResponse.json(
       {
         message: "Data edited successfully.",
-        // data: updatedProfile,
+        data: updatedProfile,
       },
       { status: 200 }
     )
   } catch (error) {
-    console.log({ error })
-
     return NextResponse.json({ error })
   }
 }

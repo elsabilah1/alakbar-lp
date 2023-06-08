@@ -11,17 +11,22 @@ import { Icons } from "@/components/icons"
 export default function HomePage() {
   const { data, loading } = useDataList("detail", "/api/orphanage")
 
-  if (loading) return <div>loading...</div>
+  if (loading)
+    return (
+      <div className="container grid h-96 place-items-center">
+        <Icons.loader className="h-8 w-8 animate-spin" />
+      </div>
+    )
 
   return (
     <>
       <main>
-        <section className="container relative grid h-screen bg-emerald-200 text-emerald-100 md:h-[calc(100vh-100px)] md:grid-cols-2">
+        <section className="container relative grid h-screen bg-emerald-200 text-emerald-100 md:h-[calc(100vh-100px)] md:grid-cols-3 lg:grid-cols-2">
           <div className="absolute inset-0 z-10 bg-gradient-to-r from-emerald-800 to-transparent"></div>
-          <div className="z-20 grid items-center">
+          <div className="z-20 grid items-center md:col-span-2 lg:col-auto">
             <div className="space-y-4">
-              <h1 className="text-5xl font-semibold leading-tight">
-                Panti Asuhan {data.name} Pekan Baru
+              <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
+                Panti Asuhan {data.name} Pekanbaru
               </h1>
               <p className="w-2/3">{data.snippet}</p>
               <Link

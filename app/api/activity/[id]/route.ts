@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 
+import cloudinary from "@/lib/cloudinary"
 import connectMongo from "@/lib/db"
 import Activity from "@/lib/models/Activity"
 import Orphanage from "@/lib/models/Orphanage"
@@ -37,6 +38,8 @@ export async function DELETE(req: Request, { params }: any) {
     await connectMongo()
 
     const deletedActivity = await Activity.findByIdAndDelete(params.id)
+
+    await cloudinary.uploader.destroy(deletedActivity.imageId)
 
     const orphanages = await Orphanage.find()
     const orp = orphanages[0]

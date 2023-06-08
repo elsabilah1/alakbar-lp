@@ -5,6 +5,7 @@ import Link from "next/link"
 
 import useDataList from "@/hooks/useDataList"
 import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
 
 import CardDetail from "./card-detail"
 import CardReport from "./card-report"
@@ -21,7 +22,9 @@ export default function DashboardPage() {
         </Link>
       </div>
       {loading ? (
-        <div>loading...</div>
+        <div className="grid h-96 place-items-center">
+          <Icons.loader className="mx-auto h-8 w-8 animate-spin" />
+        </div>
       ) : (
         <>
           <div className="mb-5 grid gap-4 md:grid-cols-3">
