@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import Dropzone from "@/components/ui/dropzone"
 import {
   Form,
   FormControl,
@@ -26,6 +27,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
+
+import DonorCombobox from "./donor-combobox"
 
 export default function EditDonationForm({ data }: { data: Donation }) {
   const { editDonation } = useStore()
@@ -49,10 +52,11 @@ export default function EditDonationForm({ data }: { data: Donation }) {
         </AlertDialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((values) =>
-              editDonation(data._id, values, setOpen)
-            )}
             className="grid gap-3"
+            onSubmit={form.handleSubmit(async (values) => {
+              await editDonation(data._id, values, setOpen)
+              form.reset()
+            })}
           >
             <FormField
               control={form.control}
@@ -61,7 +65,7 @@ export default function EditDonationForm({ data }: { data: Donation }) {
                 <FormItem>
                   <FormLabel>Donatur</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <DonorCombobox field={field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,32 +86,21 @@ export default function EditDonationForm({ data }: { data: Donation }) {
             />
             <FormField
               control={form.control}
-              name="fileUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>File Url</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="fileId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>File Id</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              name="file"
+              render={({ field, formState }) => (
+                <Dropzone
+                  field={field}
+                  formState={formState}
+                  label="Bukti Pembayaran"
+                  placeholder="Unggah file bukti pembayaran"
+                />
               )}
             />
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => form.reset()}>
+              <AlertDialogCancel
+                onClick={() => form.reset()}
+                disabled={form.formState.isSubmitting}
+              >
                 Batal
               </AlertDialogCancel>
               <Button type="submit" isLoading={form.formState.isSubmitting}>

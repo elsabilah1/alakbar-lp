@@ -48,7 +48,7 @@ export default function Dropzone({
             {field.value && (
               <div className="my-2 flex justify-between border border-emerald-500 p-2">
                 <p className="text-sm">{field.value.path}</p>
-                <button onClick={() => field.onChange(undefined)}>
+                <button onClick={() => field.onChange(undefined)} type="button">
                   <Icons.x className="w-4" />
                 </button>
               </div>

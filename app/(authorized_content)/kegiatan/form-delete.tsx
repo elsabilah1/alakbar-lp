@@ -25,7 +25,8 @@ export default function DeleteActivityForm({ id }: { id: unknown }) {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="sm">
-          <Icons.trash className="h-3 w-3" />
+          <Icons.trash className="mr-2 h-3 w-3" />
+          Hapus
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

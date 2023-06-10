@@ -4,6 +4,8 @@ import { mutate } from "swr"
 import * as z from "zod"
 import { StateCreator } from "zustand"
 
+import { createUploadFile } from "@/lib/utils"
+
 export type Donation = {
   _id?: string
   donor: string
@@ -16,8 +18,8 @@ export type Donation = {
 export const donationSchema = z.object({
   donor: z.string().min(2).max(50),
   paymentMethod: z.string().min(2).max(50),
-  fileUrl: z.string().min(2).max(50),
-  fileId: z.string().min(2).max(50),
+  file: z.any(),
+  fileId: z.string().optional(),
 })
 
 export interface IValues extends z.infer<typeof donationSchema> {}
@@ -48,14 +50,67 @@ const createDonationSlice: StateCreator<IDonationState> = () => ({
     fileId: "",
   },
   createDonation: async (values, setOpen) => {
-    const { data } = await axios.post("/api/donation", values)
-    console.log(data)
+    let uploadedFile
+    const fileData = createUploadFile({
+      folder: "files",
+      file: values.file,
+      publicId: `donation-${new Date().valueOf()}`,
+    })
+
+    try {
+      const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+
+      const { data } = await axios.post(url!, fileData)
+      uploadedFile = {
+        fileUrl: data.secure_url,
+        fileId: data.public_id,
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+    const data = {
+      ...values,
+      fileUrl: uploadedFile?.fileUrl,
+      fileId: uploadedFile?.fileId,
+    }
+
+    const { data: res } = await axios.post("/api/donation", data)
+    console.log(res)
+
     mutate("donation")
     setOpen(false)
   },
   editDonation: async (id, values, setOpen) => {
-    const { data } = await axios.put(`/api/donation/${id}`, values)
-    console.log(data)
+    let uploadedFile
+    if (values.file) {
+      const fileData = createUploadFile({
+        folder: "files",
+        file: values.file,
+        publicId: values.fileId?.split("/")[1]!,
+      })
+
+      try {
+        const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+
+        const { data } = await axios.post(url!, fileData)
+        uploadedFile = {
+          fileUrl: data.secure_url,
+          fileId: data.public_id,
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const data = {
+      ...values,
+      ...uploadedFile,
+    }
+
+    const { data: res } = await axios.put(`/api/donation/${id}`, data)
+
+    console.log(res)
     mutate("donation")
     setOpen(false)
   },

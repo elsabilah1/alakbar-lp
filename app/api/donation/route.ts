@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import connectMongo from "@/lib/db"
 import Donation from "@/lib/models/Donation"
+import Donor from "@/lib/models/Donor"
+import Orphanage from "@/lib/models/Orphanage"
 
 export async function GET() {
   try {
@@ -28,11 +30,23 @@ export async function POST(req: Request) {
       createdBy: session?.user.id,
     })
 
-    // const orphanages = await Orphanage.find()
-    // const orp = orphanages[0]
-    // orp.report.totalDonor += 1
+    const donor = await Donor.findOne({ name: body.donor })
 
-    // await Orphanage.findByIdAndUpdate(orp._id, { report: orp.report })
+    if (!donor) {
+      await Donor.create({
+        name: body.donor,
+        donations: [createdDonation._id],
+      })
+
+      const orphanages = await Orphanage.find()
+      const orp = orphanages[0]
+      orp.report.totalDonor += 1
+
+      await Orphanage.findByIdAndUpdate(orp._id, { report: orp.report })
+    } else {
+      donor.donations.push(createdDonation._id)
+      await Donor.findByIdAndUpdate(donor._id, { donations: donor.donations })
+    }
 
     return NextResponse.json(
       {

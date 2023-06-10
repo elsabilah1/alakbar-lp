@@ -42,7 +42,7 @@ export default function EditActivityForm({ data }: { data: Activity }) {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button size="sm">
-          <Icons.pen className="h-3 w-3" />
+          <Icons.pen className="mr-2 h-3 w-3" /> Ubah
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

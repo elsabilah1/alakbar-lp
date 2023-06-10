@@ -95,7 +95,7 @@ export default function EditDetailForm({ data }: { data: any }) {
           <Icons.pen className="h-3 w-3" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-h-96 overflow-auto">
+      <AlertDialogContent className="h-[32rem] overflow-auto">
         <AlertDialogHeader>
           <AlertDialogTitle>Edit Detail Panti</AlertDialogTitle>
         </AlertDialogHeader>

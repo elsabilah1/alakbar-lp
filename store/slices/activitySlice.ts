@@ -12,6 +12,7 @@ export type Activity = {
   description: string
   imageUrl: string
   imageId: string
+  createdBy?: string
 }
 
 export const activitySchema = z.object({

@@ -10,14 +10,6 @@ export async function PUT(req: Request, { params }: any) {
 
     await connectMongo()
 
-    // const childExisted = await Child.findOne({
-    //   fullName:
-    // })
-
-    // if (childExisted) {
-    //   throw BadRequestError("Data already created before.")
-    // }
-
     const updatedAdmin = await Admin.findByIdAndUpdate(params.id, body)
 
     return NextResponse.json(
@@ -41,7 +33,7 @@ export async function DELETE(req: Request, { params }: any) {
     const adminId = deletedAdmin._id
     const orphanages = await Orphanage.find()
     const orp = orphanages[0]
-    orp.admins.filter((item: string) => item != adminId)
+    orp.admins.filter((item: any) => item.toString().includes(adminId))
 
     await Orphanage.findByIdAndUpdate(orp._id, { admins: orp.admins })
 

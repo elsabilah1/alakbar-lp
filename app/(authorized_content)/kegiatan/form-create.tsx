@@ -51,9 +51,10 @@ export default function CreateActivityForm() {
         </AlertDialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((values) =>
-              createActivity(values, setOpen)
-            )}
+            onSubmit={form.handleSubmit(async (values) => {
+              await createActivity(values, setOpen)
+              form.reset()
+            })}
             className="grid gap-3"
           >
             <FormField
@@ -95,7 +96,10 @@ export default function CreateActivityForm() {
               )}
             />
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => form.reset()}>
+              <AlertDialogCancel
+                onClick={() => form.reset()}
+                disabled={form.formState.isSubmitting}
+              >
                 Batal
               </AlertDialogCancel>
               <Button type="submit" isLoading={form.formState.isSubmitting}>

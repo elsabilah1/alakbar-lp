@@ -4,6 +4,8 @@ import Link from "next/link"
 import { Donation } from "@/store/slices/donationSlice"
 import { ColumnDef } from "@tanstack/react-table"
 
+import { buttonVariants } from "@/components/ui/button"
+
 import DeleteDonationForm from "./form-delete"
 import EditDonationForm from "./form-edit"
 
@@ -20,7 +22,13 @@ export const columns: ColumnDef<Donation>[] = [
     accessorKey: "fileUrl",
     header: "Bukti Pembayaran",
     cell: ({ getValue, row }) => (
-      <Link href={`${getValue()}`}>{row.original.fileId}</Link>
+      <Link
+        target="_blank"
+        href={`${getValue()}`}
+        className={buttonVariants({ variant: "link" })}
+      >
+        link
+      </Link>
     ),
   },
   {

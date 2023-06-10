@@ -17,9 +17,9 @@ export default function KegiatanPage() {
         <h1 className="text-3xl font-bold">Kelola Kegiatan</h1>
         <CreateActivityForm />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {loading ? (
-          <div className="col-span-2 grid h-96 place-items-center">
+          <div className="grid h-96 place-items-center sm:col-span-2 lg:col-span-3">
             <Icons.loader className="h-8 w-8 animate-spin" />
           </div>
         ) : (

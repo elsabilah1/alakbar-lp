@@ -15,28 +15,32 @@ import EditActivityForm from "./form-edit"
 
 export default function CardActivity({ data }: { data: Activity }) {
   return (
-    <Card className="md:h-64">
+    <Card className="relative h-[400px]">
       <CardHeader>
-        <div className="flex justify-between">
-          <CardTitle>{data.title}</CardTitle>
-          <div className="flex gap-1">
-            <EditActivityForm data={data} />
-            <DeleteActivityForm id={data._id} />
-          </div>
-        </div>
-        <CardDescription>{new Date().toLocaleDateString()}</CardDescription>
-      </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-2">
-        <div className="relative h-32">
+        <div className="relative h-40">
           <Image
             src={data.imageUrl}
             alt={data.title}
-            className="object-contain"
+            className="object-cover"
             fill
           />
         </div>
-        <p className="line-clamp-2 text-sm">{data.description}</p>
+      </CardHeader>
+      <CardContent className="relative space-y-3">
+        <div>
+          <CardTitle className="capitalize">{data.title}</CardTitle>
+          <CardDescription className="text-end text-xs">
+            {new Date().toLocaleDateString()}
+          </CardDescription>
+        </div>
+
+        <p className="line-clamp-3 text-sm">{data.description}</p>
       </CardContent>
+
+      <CardFooter className="absolute bottom-0 grid w-full grid-cols-2 gap-2">
+        <EditActivityForm data={data} />
+        <DeleteActivityForm id={data._id} />
+      </CardFooter>
     </Card>
   )
 }

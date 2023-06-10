@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
         <TableBody>
           {loading ? (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24">
+              <TableCell colSpan={columns.length + 1} className="h-24">
                 <Icons.loader className="mx-auto h-4 w-4 animate-spin" />
               </TableCell>
             </TableRow>
