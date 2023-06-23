@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
+import { IValues } from "@/store/slices/profileSlice"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -16,10 +16,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-import EditDetailForm, { detailSchema } from "./form-edit"
+import EditDetailForm from "./form-edit"
 
 export default function CardDetail({ data }: { data: any }) {
-  const form = useForm<z.infer<typeof detailSchema>>({
+  const form = useForm<IValues>({
     defaultValues: data,
   })
 
@@ -37,27 +37,93 @@ export default function CardDetail({ data }: { data: any }) {
             onSubmit={form.handleSubmit(() => console.log("clicked"))}
             className="grid gap-10"
           >
-            <FormField
-              control={form.control}
-              name="logo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Logo</FormLabel>
-                  <FormControl>
-                    <>
-                      <Image
-                        src={data.logoUrl}
-                        alt="logo"
-                        width={48}
-                        height={48}
-                        className="object-contain"
-                      />
-                    </>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-4 gap-3">
+              <FormField
+                control={form.control}
+                name="logo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Logo</FormLabel>
+                    <FormControl>
+                      <>
+                        <Image
+                          src={data.images.logo.url}
+                          alt="logo"
+                          width={48}
+                          height={48}
+                          className="object-contain"
+                        />
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="hero"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hero</FormLabel>
+                    <FormControl>
+                      <>
+                        <Image
+                          src={data.images.hero.url}
+                          alt="hero"
+                          width={48}
+                          height={48}
+                          className="object-contain"
+                        />
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="about"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>About</FormLabel>
+                    <FormControl>
+                      <>
+                        <Image
+                          src={data.images.about.url}
+                          alt="about"
+                          width={48}
+                          height={48}
+                          className="object-contain"
+                        />
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="footer"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Footer</FormLabel>
+                    <FormControl>
+                      <>
+                        <Image
+                          src={data.images.footer.url}
+                          alt="footer"
+                          width={48}
+                          height={48}
+                          className="object-contain"
+                        />
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="name"

@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth"
 import { siteConfig } from "@/config/site"
 import { authOptions } from "@/lib/auth"
 import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -22,24 +21,6 @@ export async function SiteHeader() {
         />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
-            {!session && (
-              <>
-                <Link
-                  href={siteConfig.links.instagram}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <div
-                    className={buttonVariants({
-                      size: "sm",
-                      variant: "ghost",
-                    })}
-                  >
-                    <Icons.instagram className="h-5 w-5" />
-                  </div>
-                </Link>
-              </>
-            )}
             <ThemeToggle />
             {session ? (
               <LogoutButton />

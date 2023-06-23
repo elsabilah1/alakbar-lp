@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 
@@ -11,6 +12,8 @@ import {
 } from "@/components/ui/card"
 
 import SignInForm from "./signin-form"
+
+export const metadata: Metadata = { title: "Sign In" }
 
 export default async function SignInPage() {
   const session = await getServerSession(authOptions)

@@ -1,9 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Al Akbar",
-  description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+  description: "This is a description of this orphanage.",
   mainNav: [
     {
       title: "Tentang Kami",
@@ -28,7 +26,4 @@ export const siteConfig = {
       href: "/activities",
     },
   ],
-  links: {
-    instagram: "https://www.instagram.com/pantiasuhan_alakbar",
-  },
 }

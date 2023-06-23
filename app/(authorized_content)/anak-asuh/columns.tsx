@@ -14,6 +14,9 @@ export const columns: ColumnDef<Child>[] = [
   {
     accessorKey: "gender",
     header: "Jenis Kelamin",
+    cell: ({ getValue }) => (
+      <div>{getValue() === "male" ? "Laki-laki" : "Perempuan"}</div>
+    ),
   },
   {
     accessorKey: "origin",

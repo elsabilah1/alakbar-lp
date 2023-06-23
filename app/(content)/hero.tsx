@@ -8,7 +8,6 @@ import { Icons } from "@/components/icons"
 
 export default function Hero() {
   const { data, loading } = useDataList("detail", "/api/orphanage")
-  const donationLink = "https://seedeka.com/listing/panti-asuhan-al-akbar"
 
   if (loading)
     return (
@@ -28,7 +27,7 @@ export default function Hero() {
           <p className="w-2/3">{data.snippet}</p>
           <Link
             target="_blank"
-            href={donationLink}
+            href={data.links.donation}
             className={buttonVariants({ size: "lg", variant: "secondary" })}
           >
             <span className="font-bold">MULAI DONASI</span>{" "}
@@ -36,7 +35,12 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-      <div className="absolute right-0 top-1/2 h-[28rem] w-3/4 -translate-y-1/2 rounded-l-full bg-[url('/test.jpg')] bg-cover lg:w-1/2"></div>
+      {data && (
+        <div
+          style={{ backgroundImage: `url(${data.images.hero.url})` }}
+          className="absolute right-0 top-1/2 h-[28rem] w-3/4 -translate-y-1/2 rounded-l-full bg-cover lg:w-1/2"
+        ></div>
+      )}
     </section>
   )
 }

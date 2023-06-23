@@ -4,6 +4,8 @@ import { mutate } from "swr"
 import * as z from "zod"
 import { StateCreator } from "zustand"
 
+import { toast } from "@/components/ui/use-toast"
+
 export type Admin = {
   _id?: string
   fullName: string
@@ -54,24 +56,36 @@ const createAdminSlice: StateCreator<IAdminState> = () => ({
     password: "",
   },
   createAdmin: async (values, setOpen) => {
-    const { data } = await axios.post("/api/admin", values)
-    console.log(data)
-    mutate("admin")
-    setOpen(false)
+    try {
+      const { data: res } = await axios.post("/api/admin", values)
+      toast({ description: res.message })
+      mutate("admin")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
   editAdmin: async (id, values, setOpen) => {
-    const { data } = await axios.put(`/api/admin/${id}`, values)
-    console.log(data)
-    mutate("admin")
-    setOpen(false)
+    try {
+      const { data: res } = await axios.put(`/api/admin/${id}`, values)
+      toast({ description: res.message })
+      mutate("admin")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
   deleteAdmin: async (id, setOpen, setLoading) => {
-    setLoading(true)
-    const { data } = await axios.delete(`/api/admin/${id}`)
-    console.log(data)
-    mutate("admin")
-    setLoading(false)
-    setOpen(false)
+    try {
+      setLoading(true)
+      const { data: res } = await axios.delete(`/api/admin/${id}`)
+      toast({ description: res.message })
+      mutate("admin")
+      setLoading(false)
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
 })
 

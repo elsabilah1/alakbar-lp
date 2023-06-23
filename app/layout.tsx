@@ -2,17 +2,14 @@ import "@/styles/globals.css"
 import { Metadata } from "next"
 
 import { siteConfig } from "@/config/site"
-import { poppins } from "@/lib/fonts"
+import { inter } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
   description: siteConfig.description,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
@@ -27,15 +24,14 @@ interface RootLayoutProps {
   children: React.ReactNode
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
       <html lang="en" suppressHydrationWarning>
-        <head />
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
-            poppins.className
+            inter.className
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -43,6 +39,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               {/* @ts-expect-error Server Component */}
               <SiteHeader />
               <div className="flex-1">{children}</div>
+              <Toaster />
             </div>
             <TailwindIndicator />
           </ThemeProvider>

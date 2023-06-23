@@ -1,13 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import { IValues, detailSchema } from "@/store/slices/profileSlice"
+import useStore from "@/store/useStore"
 import { zodResolver } from "@hookform/resolvers/zod"
-import axios from "axios"
 import { useForm } from "react-hook-form"
-import { mutate } from "swr"
-import * as z from "zod"
 
-import { createUploadFile } from "@/lib/utils"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -31,62 +29,24 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Icons } from "@/components/icons"
 
-export const detailSchema = z.object({
-  name: z.string().min(2).max(50),
-  snippet: z.string().min(2).max(100),
-  logo: z.any(),
-  description: z.string().min(2).max(500),
-  visi: z.string().min(2).max(500),
-  misi: z.string().min(2).max(500),
-  address: z.string().min(2).max(100),
-  phoneNumber: z.string().min(2).max(50),
-})
-
 export default function EditDetailForm({ data }: { data: any }) {
   const [open, setOpen] = useState(false)
+  const { editProfile } = useStore()
 
-  const form = useForm<z.infer<typeof detailSchema>>({
+  const form = useForm<IValues>({
     resolver: zodResolver(detailSchema),
     defaultValues: {
       ...data,
+      email: data.links.socials.email,
+      instagram: data.links.socials.instagram,
+      facebook: data.links.socials.facebook,
+      donation: data.links.donation,
       logo: "",
+      hero: "",
+      about: "",
+      footer: "",
     },
   })
-
-  const onSubmit = async (values: z.infer<typeof detailSchema>) => {
-    let uploadedLogo
-    if (values.logo) {
-      const fileData = createUploadFile({
-        folder: "images",
-        file: values.logo,
-        publicId: "logo",
-      })
-
-      try {
-        const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
-
-        const { data } = await axios.post(url!, fileData)
-        uploadedLogo = {
-          logoUrl: data.secure_url,
-          logoId: data.public_id,
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    const data = {
-      ...values,
-      logoUrl: uploadedLogo?.logoUrl,
-      logoId: uploadedLogo?.logoId,
-    }
-
-    const { data: res } = await axios.put(`/api/orphanage`, data)
-    console.log(res)
-
-    await mutate("orphanage")
-    setOpen(false)
-  }
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -100,7 +60,12 @@ export default function EditDetailForm({ data }: { data: any }) {
           <AlertDialogTitle>Edit Detail Panti</AlertDialogTitle>
         </AlertDialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3">
+          <form
+            onSubmit={form.handleSubmit((values) =>
+              editProfile(data, values, setOpen)
+            )}
+            className="grid gap-3"
+          >
             <FormField
               control={form.control}
               name="logo"
@@ -110,6 +75,42 @@ export default function EditDetailForm({ data }: { data: any }) {
                   formState={formState}
                   label="Logo"
                   placeholder="Unggah Logo"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="hero"
+              render={({ field, formState }) => (
+                <Dropzone
+                  field={field}
+                  formState={formState}
+                  label="Hero"
+                  placeholder="Unggah Gambar Hero"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="about"
+              render={({ field, formState }) => (
+                <Dropzone
+                  field={field}
+                  formState={formState}
+                  label="About"
+                  placeholder="Unggah Gambar About"
+                />
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="footer"
+              render={({ field, formState }) => (
+                <Dropzone
+                  field={field}
+                  formState={formState}
+                  label="Footer"
+                  placeholder="Unggah Gambar Footer"
                 />
               )}
             />
@@ -199,6 +200,58 @@ export default function EditDetailForm({ data }: { data: any }) {
                   <FormLabel>Alamat</FormLabel>
                   <FormControl>
                     <Textarea {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instagram"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link Instagram</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="facebook"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link Facebook</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="donation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link Donasi</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

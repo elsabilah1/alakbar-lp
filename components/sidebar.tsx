@@ -45,7 +45,8 @@ export default function Sidebar() {
             })}
             style={{ justifyContent: "left" }}
           >
-            {item.icon} <span className="hidden lg:block">{item.title}</span>
+            {item.icon}{" "}
+            <span className="hidden text-sm lg:block">{item.title}</span>
           </Link>
         ))}
       </div>

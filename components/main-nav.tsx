@@ -32,7 +32,7 @@ export function MainNav({ isAdmin, items }: MainNavProps) {
         {data && (
           <>
             <Image
-              src={data.logoUrl}
+              src={data.images.logo.url}
               alt="logo"
               width={24}
               height={24}

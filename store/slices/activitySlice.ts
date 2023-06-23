@@ -5,6 +5,7 @@ import * as z from "zod"
 import { StateCreator } from "zustand"
 
 import { createUploadFile } from "@/lib/utils"
+import { toast } from "@/components/ui/use-toast"
 
 export type Activity = {
   _id?: string
@@ -50,77 +51,88 @@ const createActivitySlice: StateCreator<IActivityState> = () => ({
     imageId: "",
   },
   createActivity: async (values, setOpen) => {
-    let uploadedImage
-    const fileData = createUploadFile({
-      folder: "images",
-      file: values.image,
-      publicId: `activity-${new Date().valueOf()}`,
-    })
-
     try {
-      const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+      let uploadedImage
+      const fileData = createUploadFile({
+        folder: "images",
+        file: values.image,
+        publicId: `activity-${new Date().valueOf()}`,
+      })
 
-      const { data } = await axios.post(url!, fileData)
-      uploadedImage = {
-        imageUrl: data.secure_url,
-        imageId: data.public_id,
+      try {
+        const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+
+        const { data } = await axios.post(url!, fileData)
+        uploadedImage = {
+          imageUrl: data.secure_url,
+          imageId: data.public_id,
+        }
+      } catch (error: any) {
+        toast({ variant: "destructive", description: error.message })
       }
-    } catch (error) {
-      console.log(error)
+
+      const data = {
+        ...values,
+        imageUrl: uploadedImage?.imageUrl,
+        imageId: uploadedImage?.imageId,
+      }
+
+      const { data: res } = await axios.post("/api/activity", data)
+      toast({ description: res.message })
+      mutate("activity")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
     }
-
-    const data = {
-      ...values,
-      imageUrl: uploadedImage?.imageUrl,
-      imageId: uploadedImage?.imageId,
-    }
-
-    const { data: res } = await axios.post("/api/activity", data)
-
-    console.log(res)
-    mutate("activity")
-    setOpen(false)
   },
   editActivity: async (id, values, setOpen) => {
-    let uploadedImage
-
-    const fileData = createUploadFile({
-      folder: "images",
-      file: values.image,
-      publicId: values.imageId?.split("/")[1]!,
-    })
-
     try {
-      const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+      let uploadedImage
 
-      const { data } = await axios.post(url!, fileData)
+      const fileData = createUploadFile({
+        folder: "images",
+        file: values.image,
+        publicId: values.imageId?.split("/")[1]!,
+      })
 
-      uploadedImage = {
-        imageUrl: data.secure_url,
-        imageId: data.public_id,
+      try {
+        const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+
+        const { data } = await axios.post(url!, fileData)
+
+        uploadedImage = {
+          imageUrl: data.secure_url,
+          imageId: data.public_id,
+        }
+      } catch (error: any) {
+        toast({ variant: "destructive", description: error.message })
       }
-    } catch (error) {
-      console.log(error)
-    }
 
-    const data = {
-      ...values,
-      imageUrl: uploadedImage?.imageUrl,
-      imageId: uploadedImage?.imageId,
-    }
+      const data = {
+        ...values,
+        imageUrl: uploadedImage?.imageUrl,
+        imageId: uploadedImage?.imageId,
+      }
 
-    const { data: res } = await axios.put(`/api/activity/${id}`, data)
-    console.log(res)
-    mutate("activity")
-    setOpen(false)
+      const { data: res } = await axios.put(`/api/activity/${id}`, data)
+      toast({ description: res.message })
+      mutate("activity")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
   deleteActivity: async (id, setOpen, setLoading) => {
-    setLoading(true)
-    const { data } = await axios.delete(`/api/activity/${id}`)
-    console.log(data)
-    mutate("activity")
-    setLoading(false)
-    setOpen(false)
+    try {
+      setLoading(true)
+      const { data: res } = await axios.delete(`/api/activity/${id}`)
+      toast({ description: res.message })
+      mutate("activity")
+      setLoading(false)
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
 })
 

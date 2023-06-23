@@ -4,6 +4,8 @@ import { mutate } from "swr"
 import * as z from "zod"
 import { StateCreator } from "zustand"
 
+import { toast } from "@/components/ui/use-toast"
+
 export type Child = {
   _id?: string
   fullName: string
@@ -47,24 +49,36 @@ const createChildSlice: StateCreator<IChildState> = () => ({
     status: "",
   },
   createChild: async (values, setOpen) => {
-    const { data } = await axios.post("/api/child", values)
-    console.log(data)
-    mutate("child")
-    setOpen(false)
+    try {
+      const { data: res } = await axios.post("/api/child", values)
+      toast({ description: res.message })
+      mutate("child")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
   editChild: async (id, values, setOpen) => {
-    const { data } = await axios.put(`/api/child/${id}`, values)
-    console.log(data)
-    mutate("child")
-    setOpen(false)
+    try {
+      const { data: res } = await axios.put(`/api/child/${id}`, values)
+      toast({ description: res.message })
+      mutate("child")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
   deleteChild: async (id, setOpen, setLoading) => {
-    setLoading(true)
-    const { data } = await axios.delete(`/api/child/${id}`)
-    console.log(data)
-    mutate("child")
-    setLoading(false)
-    setOpen(false)
+    try {
+      setLoading(true)
+      const { data: res } = await axios.delete(`/api/child/${id}`)
+      toast({ description: res.message })
+      mutate("child")
+      setLoading(false)
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
 })
 

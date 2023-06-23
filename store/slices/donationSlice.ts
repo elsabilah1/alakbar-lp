@@ -5,6 +5,7 @@ import * as z from "zod"
 import { StateCreator } from "zustand"
 
 import { createUploadFile } from "@/lib/utils"
+import { toast } from "@/components/ui/use-toast"
 
 export type Donation = {
   _id?: string
@@ -45,49 +46,18 @@ export interface IDonationState {
 const createDonationSlice: StateCreator<IDonationState> = () => ({
   donationValues: {
     donor: "",
+    date: "",
     paymentMethod: "",
     fileUrl: "",
     fileId: "",
   },
   createDonation: async (values, setOpen) => {
-    let uploadedFile
-    const fileData = createUploadFile({
-      folder: "files",
-      file: values.file,
-      publicId: `donation-${new Date().valueOf()}`,
-    })
-
     try {
-      const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
-
-      const { data } = await axios.post(url!, fileData)
-      uploadedFile = {
-        fileUrl: data.secure_url,
-        fileId: data.public_id,
-      }
-    } catch (error) {
-      console.log(error)
-    }
-
-    const data = {
-      ...values,
-      fileUrl: uploadedFile?.fileUrl,
-      fileId: uploadedFile?.fileId,
-    }
-
-    const { data: res } = await axios.post("/api/donation", data)
-    console.log(res)
-
-    mutate("donation")
-    setOpen(false)
-  },
-  editDonation: async (id, values, setOpen) => {
-    let uploadedFile
-    if (values.file) {
+      let uploadedFile
       const fileData = createUploadFile({
         folder: "files",
         file: values.file,
-        publicId: values.fileId?.split("/")[1]!,
+        publicId: `donation-${new Date().valueOf()}`,
       })
 
       try {
@@ -98,29 +68,67 @@ const createDonationSlice: StateCreator<IDonationState> = () => ({
           fileUrl: data.secure_url,
           fileId: data.public_id,
         }
-      } catch (error) {
-        console.log(error)
+      } catch (error: any) {
+        toast({ variant: "destructive", description: error.message })
       }
+
+      const data = {
+        ...values,
+        fileUrl: uploadedFile?.fileUrl,
+        fileId: uploadedFile?.fileId,
+      }
+
+      const { data: res } = await axios.post("/api/donation", data)
+      toast({ description: res.message })
+      mutate("donation")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
     }
+  },
+  editDonation: async (id, values, setOpen) => {
+    try {
+      let uploadedFile
+      if (values.file) {
+        const fileData = createUploadFile({
+          folder: "files",
+          file: values.file,
+          publicId: values.fileId?.split("/")[1]!,
+        })
 
-    const data = {
-      ...values,
-      ...uploadedFile,
+        try {
+          const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+
+          const { data } = await axios.post(url!, fileData)
+          uploadedFile = {
+            fileUrl: data.secure_url,
+            fileId: data.public_id,
+          }
+        } catch (error: any) {
+          toast({ variant: "destructive", description: error.message })
+        }
+      }
+
+      const data = { ...values, ...uploadedFile }
+      const { data: res } = await axios.put(`/api/donation/${id}`, data)
+      toast({ description: res.message })
+      mutate("donation")
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
     }
-
-    const { data: res } = await axios.put(`/api/donation/${id}`, data)
-
-    console.log(res)
-    mutate("donation")
-    setOpen(false)
   },
   deleteDonation: async (id, setOpen, setLoading) => {
-    setLoading(true)
-    const { data } = await axios.delete(`/api/donation/${id}`)
-    console.log(data)
-    mutate("donation")
-    setLoading(false)
-    setOpen(false)
+    try {
+      setLoading(true)
+      const { data: res } = await axios.delete(`/api/donation/${id}`)
+      toast({ description: res.message })
+      mutate("donation")
+      setLoading(false)
+      setOpen(false)
+    } catch (error: any) {
+      toast({ variant: "destructive", description: error.message })
+    }
   },
 })
 

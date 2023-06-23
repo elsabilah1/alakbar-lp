@@ -19,7 +19,7 @@ export default function ActivitiesPage() {
 
   return (
     <>
-      <section className="container mb-10 pb-8 pt-6 md:py-10">
+      <section className="container mb-10 min-h-screen pb-8 pt-6 md:py-10">
         <h1 className="mb-10 text-3xl font-bold">Kegiatan Panti</h1>
         <div className="grid gap-4 xl:grid-cols-3">
           {data.map((item: Activity) => (
