@@ -19,7 +19,7 @@ export default function CardActivity({ data }: { data: Activity }) {
       <CardHeader>
         <div className="relative h-40">
           <Image
-            src="/test.jpg"
+            src={data.imageUrl}
             alt={data.title}
             className="object-cover"
             fill

@@ -12,7 +12,7 @@ export default function ActivitiesPage() {
 
   if (loading)
     return (
-      <div className="container grid h-96 place-items-center">
+      <div className="container grid h-screen place-items-center">
         <Icons.loader className="h-8 w-8 animate-spin" />
       </div>
     )
