@@ -4,14 +4,25 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import connectMongo from "@/lib/db"
 import Activity from "@/lib/models/Activity"
+import Admin from "@/lib/models/Admin"
 import Orphanage from "@/lib/models/Orphanage"
 
 export async function GET() {
   try {
     await connectMongo()
+    const admins = await Admin.find()
+    const activities = await Activity.find()
+    const data = activities.map(({ _doc: item }) => {
+      const createdBy =
+        admins.find(
+          ({ _doc: user }) => user._id.toString() === item.createdBy.toString()
+        )?.fullName ?? item.createdBy
 
-    const data = await Activity.find()
-
+      return {
+        ...item,
+        createdBy,
+      }
+    })
     return NextResponse.json({ data }, { status: 200 })
   } catch (error: any) {
     return NextResponse.json(error, { status: error.statusCode })

@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -17,7 +16,7 @@ export default function ActivityCard({ item }: { item: Activity }) {
       <CardHeader>
         <div className="relative h-56">
           <Image
-            src="/test.jpg"
+            src={item.imageUrl}
             alt={item.title}
             className="object-cover"
             fill

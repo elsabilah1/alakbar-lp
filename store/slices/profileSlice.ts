@@ -32,39 +32,29 @@ export interface IValues extends z.infer<typeof detailSchema> {
 }
 
 interface IProps {
-  images: {
-    [index: string]: any
-    logo: { url: any; id: any }
-    hero: { url: any; id: any }
-    about: { url: any; id: any }
-    footer: { url: any; id: any }
-  }
   values: IValues
-  keys: string[]
+  key: string
 }
 
-async function uploadImages({ images, values, keys }: IProps) {
-  keys.forEach(async (key) => {
-    if (values[key]) {
-      const fileData = createUploadFile({
-        folder: "images",
-        file: values[key],
-        publicId: key,
-      })
+async function uploadImage({ values, key }: IProps) {
+  try {
+    const fileData = createUploadFile({
+      folder: "images",
+      file: values[key],
+      publicId: key,
+    })
 
-      try {
-        const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
+    const url = process.env.NEXT_PUBLIC_URL + "/image/upload"
 
-        const { data } = await axios.post(url!, fileData)
-        images[key] = {
-          url: data.secure_url,
-          id: data.public_id,
-        }
-      } catch (error: any) {
-        toast({ variant: "destructive", description: error.message })
-      }
+    const { data } = await axios.post(url!, fileData)
+
+    return {
+      url: data.secure_url,
+      id: data.public_id,
     }
-  })
+  } catch (error: any) {
+    toast({ variant: "destructive", description: error.message })
+  }
 }
 
 export interface IProfileState {
@@ -78,18 +68,25 @@ export interface IProfileState {
 const createProfileSlice: StateCreator<IProfileState> = () => ({
   editProfile: async (data, values, setOpen) => {
     try {
-      let images = {
+      let images: any = {
         logo: { url: data.images.logo.url, id: data.images.logo.id },
         hero: { url: data.images.hero.url, id: data.images.hero.id },
         about: { url: data.images.about.url, id: data.images.about.id },
         footer: { url: data.images.footer.url, id: data.images.footer.id },
       }
 
-      await uploadImages({
-        images,
-        values,
-        keys: ["logo", "hero", "about", "footer"],
-      })
+      if (values.logo) {
+        images.logo = await uploadImage({ values, key: "logo" })
+      }
+      if (values.hero) {
+        images.hero = await uploadImage({ values, key: "hero" })
+      }
+      if (values.about) {
+        images.about = await uploadImage({ values, key: "about" })
+      }
+      if (values.footer) {
+        images.footer = await uploadImage({ values, key: "footer" })
+      }
 
       const formData = {
         ...values,
@@ -108,7 +105,7 @@ const createProfileSlice: StateCreator<IProfileState> = () => ({
       toast({ description: res.message })
       await mutate("orphanage")
       setOpen(false)
-      window.location.reload()
+      // window.location.reload()
     } catch (error: any) {
       toast({ variant: "destructive", description: error.message })
     }

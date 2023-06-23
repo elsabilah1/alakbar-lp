@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 
 import { authOptions } from "@/lib/auth"
 import connectMongo from "@/lib/db"
+import Admin from "@/lib/models/Admin"
 import Donation from "@/lib/models/Donation"
 import Donor from "@/lib/models/Donor"
 import Orphanage from "@/lib/models/Orphanage"
