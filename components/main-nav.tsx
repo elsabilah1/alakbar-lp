@@ -44,7 +44,7 @@ export function MainNav({ isAdmin, items }: MainNavProps) {
       </Link>
       <span className="text-muted-foreground">|</span>
       {isAdmin && !userPath ? null : items?.length ? (
-        <nav className="flex gap-6">
+        <nav className="hidden gap-6 md:flex">
           {items?.map(
             (item, index) =>
               item.href && (

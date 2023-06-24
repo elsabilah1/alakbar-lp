@@ -25,12 +25,12 @@ export default function About() {
         </h1>
         <div className="mb-10 flex flex-wrap items-center justify-evenly gap-4">
           {data && (
-            <div className="relative h-[18rem] w-[28rem]">
+            <div className="relative h-[18rem] w-full md:w-[28rem]">
               <Image
                 src={data.images.about.url}
                 alt="about"
-                fill
                 className="object-cover"
+                fill
               />
             </div>
           )}
@@ -48,13 +48,13 @@ export default function About() {
         </div>
       </section>
 
-      <section className="container grid h-96 bg-emerald-800 pb-8 pt-6 text-emerald-50 md:py-10">
-        <div className="mx-auto grid grid-cols-2 gap-4">
+      <section className="min-h-96 container grid bg-emerald-800 pb-8 pt-6 text-emerald-50 md:py-10">
+        <div className="mx-auto grid gap-4 md:grid-cols-2">
           <div>
             <h2 className="mb-10 text-3xl font-bold">Informasi Kontak</h2>
             <div className="space-y-6">
-              <div className="flex gap-4">
-                <Icons.home className="w-4" /> {data?.address}
+              <div className="flex md:gap-4">
+                <Icons.home className="hidden w-4 md:inline" /> {data?.address}
               </div>
               <div className="flex gap-4">
                 <Icons.mail className="w-4" /> {data?.links.socials.email}
@@ -110,7 +110,7 @@ export default function About() {
           </div>
           <div className="grid place-items-center">
             {data && (
-              <div className="relative h-[18rem] w-[28rem]">
+              <div className="relative h-[11rem] w-full md:h-[18rem] md:w-[28rem]">
                 <Image
                   src={data.images.footer.url}
                   alt="footer"
