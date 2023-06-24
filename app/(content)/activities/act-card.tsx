@@ -1,19 +1,26 @@
-import React from "react"
+"use client"
+
+import React, { useState } from "react"
 import Image from "next/image"
 import { Activity } from "@/store/slices/activitySlice"
 
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Icons } from "@/components/icons"
 
 export default function ActivityCard({ item }: { item: Activity }) {
+  const [showDetails, setShowDetails] = useState(false)
+
   return (
-    <Card className="relative h-[450px]">
-      <div className="absolute inset-0 hover:bg-black/20" />
+    <Card className="relative">
       <CardHeader>
         <div className="relative h-56">
           <Image
@@ -34,8 +41,29 @@ export default function ActivityCard({ item }: { item: Activity }) {
           </CardDescription>
         </div>
 
-        <p className="line-clamp-3 text-sm">{item.description}</p>
+        <p className={cn("text-sm", !showDetails && "line-clamp-3")}>
+          {item.description}
+        </p>
       </CardContent>
+      <CardFooter className="flex justify-end">
+        <Button
+          variant="link"
+          size="sm"
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          {showDetails ? (
+            <>
+              <span className="text-sm">sembunyikan</span>
+              <Icons.chevronUp className="ml-3 w-4" />
+            </>
+          ) : (
+            <>
+              <span className="text-sm">lihat detail</span>
+              <Icons.chevronDown className="ml-3 w-4" />
+            </>
+          )}
+        </Button>
+      </CardFooter>
     </Card>
   )
 }

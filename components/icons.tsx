@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   CalendarPlus,
+  ChevronDown,
+  ChevronUp,
   Contact,
   Facebook,
   Home,
@@ -25,6 +27,8 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
+  chevronDown: ChevronDown,
+  chevronUp: ChevronUp,
   x: X,
   home: Home,
   phone: Phone,
