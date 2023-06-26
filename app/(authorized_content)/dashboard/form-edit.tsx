@@ -190,7 +190,7 @@ export default function EditDetailForm({ data }: { data: any }) {
                     <Textarea {...field} />
                   </FormControl>
                   <FormDescription>
-                    Tanda "%" sebagai pemisah antar poin.
+                    Tanda &quot;%&quot; sebagai pemisah antar poin.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

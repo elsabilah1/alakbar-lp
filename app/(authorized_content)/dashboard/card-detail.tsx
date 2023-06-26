@@ -203,7 +203,7 @@ export default function CardDetail({ data }: { data: any }) {
                     <Textarea {...field} readOnly />
                   </FormControl>
                   <FormDescription>
-                    Tanda "%" sebagai pemisah antar poin.
+                    Tanda &quot;%&quot; sebagai pemisah antar poin.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
