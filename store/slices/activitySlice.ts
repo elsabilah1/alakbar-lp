@@ -17,7 +17,7 @@ export type Activity = {
 }
 
 export const activitySchema = z.object({
-  title: z.string().min(2).max(50),
+  title: z.string().min(2).max(200),
   description: z.string().min(2).max(500),
   image: z.any(),
   imageId: z.string().optional(),
