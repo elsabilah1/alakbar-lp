@@ -10,6 +10,7 @@ import { toast } from "@/components/ui/use-toast"
 export type Donation = {
   _id?: string
   donor: string
+  paymentId: string
   paymentMethod: string
   fileUrl: string
   fileId: string
@@ -18,6 +19,7 @@ export type Donation = {
 
 export const donationSchema = z.object({
   donor: z.string().min(2).max(50),
+  paymentId: z.string().min(2).max(50),
   paymentMethod: z.string().min(2).max(50),
   file: z.any(),
   fileId: z.string().optional(),
@@ -46,7 +48,7 @@ export interface IDonationState {
 const createDonationSlice: StateCreator<IDonationState> = () => ({
   donationValues: {
     donor: "",
-    date: "",
+    paymentId: "",
     paymentMethod: "",
     fileUrl: "",
     fileId: "",

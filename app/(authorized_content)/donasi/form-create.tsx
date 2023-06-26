@@ -74,6 +74,19 @@ export default function CreateDonationForm() {
             />
             <FormField
               control={form.control}
+              name="paymentId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ID Pembayaran</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="paymentMethod"
               render={({ field }) => (
                 <FormItem>

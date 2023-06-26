@@ -15,6 +15,10 @@ export const columns: ColumnDef<Donation>[] = [
     header: "Donatur",
   },
   {
+    accessorKey: "paymentId",
+    header: "ID Pembayaran",
+  },
+  {
     accessorKey: "paymentMethod",
     header: "Metode Pembayaran",
   },

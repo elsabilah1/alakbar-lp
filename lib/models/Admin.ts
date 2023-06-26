@@ -6,7 +6,6 @@ const adminSchema = new Schema(
     phoneNumber: String,
     email: {
       type: String,
-      required: true,
       unique: true,
     },
     password: String,
