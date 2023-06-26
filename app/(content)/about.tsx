@@ -23,7 +23,7 @@ export default function About() {
         <h1 className="mb-10 text-center text-3xl font-bold md:text-left">
           Tentang Kami
         </h1>
-        <div className="mb-10 flex flex-wrap items-center justify-evenly gap-4">
+        <div className="mb-10 flex flex-wrap items-center justify-evenly gap-4 md:mb-20">
           {data && (
             <div className="relative h-[18rem] w-full md:w-[28rem]">
               <Image
@@ -34,16 +34,20 @@ export default function About() {
               />
             </div>
           )}
-          <p className="max-w-md">{data?.description}</p>
+          <p className="max-w-md text-justify">{data?.description}</p>
         </div>
-        <div className="mx-auto flex max-w-7xl justify-between gap-4">
+        <div className="mx-auto max-w-xl space-y-10 md:space-y-20">
           <div>
-            <h2 className="mb-2 text-3xl font-bold">VISI</h2>
-            <p>{data?.visi}</p>
+            <h2 className="mb-2 text-center text-3xl font-bold">VISI</h2>
+            <p className="text-center">{data?.visi}</p>
           </div>
           <div>
-            <h2 className="mb-2 text-3xl font-bold">MISI</h2>
-            <p>{data?.misi}</p>
+            <h2 className="mb-2 text-center text-3xl font-bold">MISI</h2>
+            <ul className="list-disc">
+              {data?.misi.split("%").map((item: string) => (
+                <li className="mb-2 text-justify">{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

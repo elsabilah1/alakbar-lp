@@ -81,7 +81,9 @@ const createDonationSlice: StateCreator<IDonationState> = () => ({
       const { data: res } = await axios.post("/api/donation", data)
       toast({ description: res.message })
       mutate("donation")
+      mutate("donor")
       setOpen(false)
+      window.location.reload()
     } catch (error: any) {
       toast({ variant: "destructive", description: error.message })
     }
@@ -113,7 +115,9 @@ const createDonationSlice: StateCreator<IDonationState> = () => ({
       const { data: res } = await axios.put(`/api/donation/${id}`, data)
       toast({ description: res.message })
       mutate("donation")
+      mutate("donor")
       setOpen(false)
+      window.location.reload()
     } catch (error: any) {
       toast({ variant: "destructive", description: error.message })
     }
@@ -124,6 +128,7 @@ const createDonationSlice: StateCreator<IDonationState> = () => ({
       const { data: res } = await axios.delete(`/api/donation/${id}`)
       toast({ description: res.message })
       mutate("donation")
+      mutate("donor")
       setLoading(false)
       setOpen(false)
     } catch (error: any) {

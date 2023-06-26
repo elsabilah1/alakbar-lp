@@ -32,8 +32,8 @@ export default function DeleteChildForm({ id }: { id: unknown }) {
         <AlertDialogHeader>
           <AlertDialogTitle>Yakin untuk menghapus data?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Tindakan ini tidak dapat dibatalkan. Ini akan menghapus data secara
+            permanen dari server.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

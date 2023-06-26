@@ -105,7 +105,7 @@ const createProfileSlice: StateCreator<IProfileState> = () => ({
       toast({ description: res.message })
       await mutate("orphanage")
       setOpen(false)
-      // window.location.reload()
+      window.location.reload()
     } catch (error: any) {
       toast({ variant: "destructive", description: error.message })
     }

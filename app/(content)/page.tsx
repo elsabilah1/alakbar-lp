@@ -34,8 +34,8 @@ export default function HomePage() {
             <Icons.loader className="h-8 w-8 animate-spin" />
           </div>
         ) : data?.length > 0 ? (
-          <div className="grid gap-4 lg:grid-cols-3">
-            {data.slice(0, 3).map((item: Activity) => (
+          <div className="grid gap-4 lg:grid-cols-4">
+            {data.slice(0, 4).map((item: Activity) => (
               <ActivityCard item={item} key={item._id} />
             ))}
           </div>

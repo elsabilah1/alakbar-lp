@@ -20,6 +20,7 @@ import Dropzone from "@/components/ui/dropzone"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -188,6 +189,9 @@ export default function EditDetailForm({ data }: { data: any }) {
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Tanda "%" sebagai pemisah antar poin.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

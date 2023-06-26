@@ -45,7 +45,7 @@ export default function ActivityCard({ item }: { item: Activity }) {
           {item.description}
         </p>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="mt-auto flex justify-end">
         <Button
           variant="link"
           size="sm"
@@ -53,12 +53,12 @@ export default function ActivityCard({ item }: { item: Activity }) {
         >
           {showDetails ? (
             <>
-              <span className="text-sm">sembunyikan</span>
+              <span className="text-xs font-medium">sembunyikan</span>
               <Icons.chevronUp className="ml-3 w-4" />
             </>
           ) : (
             <>
-              <span className="text-sm">lihat detail</span>
+              <span className="text-xs font-medium">lihat detail</span>
               <Icons.chevronDown className="ml-3 w-4" />
             </>
           )}

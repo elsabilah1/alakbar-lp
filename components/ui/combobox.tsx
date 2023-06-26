@@ -62,7 +62,7 @@ export function Combobox({
             }}
           />
           {loading ? (
-            <div>
+            <div className="grid h-10 place-items-center">
               <Icons.loader className="animate-spin" />
             </div>
           ) : (
